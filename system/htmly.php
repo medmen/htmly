@@ -272,13 +272,80 @@ get('/author/:name', function ($name) {
     ), $layout);
 });
 
+
 // Edit the profile
+use Samyoul\U2F\U2FServer\U2FServer as U2F;
+get('/edit/login/:property', function($property) {
+	if (login()) {
+		config('views.root', 'system/admin/views');
+
+		if (isset($_SESSION[config("site.url")]['user'])) {
+			$user = $_SESSION[config("site.url")]['user'];
+		} else {
+			$login = site_url() . 'login';
+			header("location: $login");
+		}
+
+		switch($property){
+			case 'init_u2f':
+				$appId = config("site.url");
+				$registrationData = U2F::makeRegistration($appId);
+				$_SESSION['registrationRequest'] = $registrationData['request'];
+
+				// Extract the request and signatures, JSON encode them so we can give the data to our javaScript magic
+				$jsRequest = json_encode($registrationData['request']);
+				$jsSignatures = json_encode($registrationData['signatures']);
+				$payload = compact("jsRequest", "jsSignatures");
+				$type = 'init_u2f';
+				break;
+
+			case 'confirm_u2f':
+				try {
+
+					// Validate the registration response against the registration request.
+					// The output are the credentials you need to store for U2F authentication.
+					$validatedRegistration = U2F::register(
+						$_SESSION['registrationRequest'],
+						json_decode($_POST['u2f_registration_response'])
+					);
+
+					update_user_u2f($user, $validatedRegistration);
+
+					// Then let your user know what happened
+					$userMessage = "Success";
+				} catch( Exception $e ) {
+					$userMessage = "We had an error: ". $e->getMessage();
+				}
+				$payload = $userMessage;
+				$type = 'confirm_u2f';
+				break;
+			default:
+				$payload = null;
+				$type = 'edit_password';
+		}
+
+		render('edit-login', array(
+			'title' => 'Edit Login' . $user,
+			'canonical' => site_url(),
+			'payload' => $payload,
+			'type' => $type,
+			'is_admin' => true,
+			'bodyclass' => 'edit-profile',
+			'breadcrumb' => '<a href="' . site_url() . '">' . config('breadcrumb.home') . '</a> &#187; Edit login',
+		));
+	} else {
+		$login = site_url() . 'login';
+		header("location: $login");
+	}
+
+});
+
 get('/edit/profile', function () {
 
     if (login()) {
-
         config('views.root', 'system/admin/views');
-        render('edit-page', array(
+
+	    render('edit-page', array(
             'title' => 'Edit profile - ' . blog_title(),
             'description' => strip_tags(blog_description()),
             'canonical' => site_url(),

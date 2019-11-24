@@ -13,6 +13,22 @@ function user($key, $user = null)
     }
 }
 
+// update a u2f key
+function update_user_u2f($userName, $u2f_registration, $delete=false)
+{
+	// TODO Implement deleting registrations
+	$file = 'config/users/' . $userName_u2f . '.ini';
+	if (file_exists($file)) {
+		$contents = file_get_contents($file);
+		$contents.= "$u2f_registration\n";
+		file_put_contents($file, $contents);
+		return true;
+	} else {
+		file_put_contents($file, $contents);
+		return true;
+	}
+}
+
 function update_user($userName, $password, $role)
 {
     $file = 'config/users/' . $userName . '.ini';
@@ -434,7 +450,7 @@ function add_category($title, $url, $content, $description = null)
     } else {
         $post_description = "";
     }
-    $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . "\n\n" . $content;
+    $post_content = '<!--t ' . $post_title . ' t-->' . $post_description . "\n\n" . _h($content);
 
     if (!empty($post_title) && !empty($post_url) && !empty($post_content)) {
         if (get_magic_quotes_gpc()) {
