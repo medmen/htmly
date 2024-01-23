@@ -7,24 +7,18 @@
     <table class="table post-list">
         <tr class="head">
             <th><?php echo i18n('Title');?></th>
-            <th><?php echo i18n('Published');?></th>
-            <?php if (config("views.counter") == "true"): ?>
-                <th><?php echo i18n('Views');?></th>
-            <?php endif; ?>
+            <th><?php echo i18n('Publish');?></th>
             <th><?php echo i18n('Category');?></th>
             <th><?php echo i18n('Tags');?></th>
             <th><?php echo i18n('Operations');?></th>
         </tr>
         <?php foreach ($posts as $p): ?>
             <tr>
-                <td><a target="_blank" href="<?php echo $p->url ?>"><?php echo $p->title ?></a></td>
-                <td><?php echo format_date($p->date) ?></td>
-                <?php if (config("views.counter") == "true"): ?>
-                    <td><?php echo $p->views ?></td>
-                <?php endif; ?>
+                <td><?php echo $p->title ?></td>
+                <td><?php echo format_date($p->date, 'd F Y, H:i:s') ?></td>
                 <td><a href="<?php echo str_replace('category', 'admin/categories', $p->categoryUrl); ?>"><?php echo strip_tags($p->category);?></a></td>
                 <td><?php echo $p->tag ?></td>
-                <td><a class="btn btn-primary btn-xs" href="<?php echo $p->url ?>/edit?destination=admin/mine"><?php echo i18n('Edit');?></a> <a class="btn btn-danger btn-xs" href="<?php echo $p->url ?>/delete?destination=admin/mine"><?php echo i18n('Delete');?></a></td>
+                <td><a class="btn btn-primary btn-xs" href="<?php echo $p->url ?>/edit?destination=admin/scheduled"><?php echo i18n('Edit');?></a> <a class="btn btn-danger btn-xs" href="<?php echo $p->url ?>/delete?destination=admin/scheduled"><?php echo i18n('Delete');?></a></td>
             </tr>
         <?php endforeach; ?>
     </table>
@@ -47,5 +41,5 @@
     </div>
 <?php endif; ?>
 <?php } else {
-    echo i18n('No_posts_found') . '!';
+    echo i18n('No_scheduled_posts_found');
 } ?>

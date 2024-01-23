@@ -1,8 +1,6 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <!DOCTYPE html>
-<!--[if IE 8]> <html lang="<?php echo str_replace('_', '-', config('language'));?>" class="ie8"> <![endif]-->  
-<!--[if IE 9]> <html lang="<?php echo str_replace('_', '-', config('language'));?>" class="ie9"> <![endif]-->  
-<!--[if !IE]><!--> <html lang="<?php echo str_replace('_', '-', config('language'));?>"> <!--<![endif]-->  
+<html lang="<?php echo blog_language();?>">
 <head>
     <?php echo head_contents();?>
     <title><?php echo $title;?></title>
@@ -12,24 +10,17 @@
     <link href="//fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href="//fonts.googleapis.com/css?family=Crimson+Text:400,400italic" rel="stylesheet" type="text/css">     
     <!-- Global CSS -->
-    <link rel="stylesheet" href="<?php echo site_url();?>themes/blog/css/bootstrap.min.css">   
+    <link rel="stylesheet" href="<?php echo theme_path();?>css/bootstrap.min.css">   
     <!-- Plugins CSS -->
-    <link rel="stylesheet" href="<?php echo site_url();?>themes/blog/css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo theme_path();?>css/font-awesome.min.css">
     <!-- Theme CSS -->  
-    <link id="theme-style" rel="stylesheet" href="<?php echo site_url();?>themes/blog/css/styles.css">
+    <link id="theme-style" rel="stylesheet" href="<?php echo theme_path();?>css/styles.css">
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head> 
-<?php     
-    if (isset($_GET['search'])) {
-        $search = _h($_GET['search']);
-        $url = site_url() . 'search/' . remove_accent($search);
-        header("Location: $url");
-    }
-?>
+</head>
 <body class="<?php echo $bodyclass; ?>" itemscope="itemscope" itemtype="http://schema.org/Blog">
 <div class="hide">
     <meta content="<?php echo blog_title() ?>" itemprop="name"/>
@@ -40,7 +31,7 @@
     <!-- ******HEADER****** --> 
     <header class="header">
         <div class="container">                       
-            <div class="logo pull-left"><img class="logo-image" src="<?php echo site_url();?>themes/blog/images/logo.png"/></div>
+            <div class="logo pull-left"><img class="logo-image" src="<?php echo theme_path();?>images/logo.png"/></div>
             <div class="branding pull-left">
                 <?php if (is_index()) {?>
                     <h1 class="name"><a href="<?php echo site_url();?>"><?php echo blog_title();?></a></h1>
@@ -90,7 +81,7 @@
             <div class="secondary col-md-4 col-sm-12 col-xs-12">
                 <aside class="aside section">
                     <div class="section-inner">
-                        <h2 class="heading">About</h2>
+                        <h2 class="heading"><?php echo i18n("About");?></h2>
                         <div class="content">
                          <?php echo blog_description();?>                                  
                         </div><!--//content-->  
@@ -100,15 +91,15 @@
                     <div class="section-inner">
                         <!-- Tab nav -->
                         <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active"><a href="#recent-posts" aria-controls="recent-posts" role="tab" data-toggle="tab">Recent Posts</a></li>
+                            <li role="presentation" class="active"><a href="#recent-posts" aria-controls="recent-posts" role="tab" data-toggle="tab"><?php echo i18n("Recent_posts");?></a></li>
                             <?php if (config('views.counter') === 'true') :?>
-                            <li role="presentation"><a href="#popular-posts" aria-controls="popular-posts" role="tab" data-toggle="tab">Popular Posts</a></li>
+                            <li role="presentation"><a href="#popular-posts" aria-controls="popular-posts" role="tab" data-toggle="tab"><?php echo i18n("Popular_posts");?></a></li>
                             <?php endif;?>
                         </ul>
                         <!-- Tab content -->
                         <div class="tab-content">
                             <div role="tabpanel" class="tab-pane active" id="recent-posts">
-                                <h2 class="hide">Recent Posts</h2>
+                                <h2 class="hide"><?php echo i18n("Recent_Posts");?></h2>
                                 <?php $lists = recent_posts(true);?>
                                 <?php $char = 60;?>
                                 <?php foreach ($lists as $l):?>
@@ -117,14 +108,14 @@
                                         <h3 class="title"><a href="<?php echo $l->url;?>"><?php echo $recentTitle;?></a></h3>
                                         <div class="content">
                                         <p><?php echo shorten($l->body, 75); ?>...</p>
-                                        <a class="more-link" href="<?php echo $l->url;?>"><i class="fa fa-link"></i> Read more</a>
+                                        <a class="more-link" href="<?php echo $l->url;?>"><i class="fa fa-link"></i> <?php echo i18n("read_more");?></a>
                                         </div><!--//content-->
                                     </div>
                                 <?php endforeach;?>
                             </div>
                             <?php if (config('views.counter') === 'true') :?>
                             <div role="tabpanel" class="tab-pane" id="popular-posts">
-                                <h2 class="hide">Popular Posts</h2>
+                                <h2 class="hide"><?php echo i18n("Popular_posts");?></h2>
                                 <?php $lists = popular_posts(true);?>
                                 <?php $char = 60;?>
                                 <?php foreach ($lists as $l):?>
@@ -133,7 +124,7 @@
                                         <h3 class="title"><a href="<?php echo $l->url;?>"><?php echo $recentTitle;?></a></h3>
                                         <div class="content">
                                         <p><?php echo shorten($l->body, 75); ?>...</p>
-                                        <a class="more-link" href="<?php echo $l->url;?>"><i class="fa fa-link"></i> Read more</a>
+                                        <a class="more-link" href="<?php echo $l->url;?>"><i class="fa fa-link"></i> <?php echo i18n("read_more");?></a>
                                         </div><!--//content-->
                                     </div>
                                 <?php endforeach;?>
@@ -145,7 +136,7 @@
                 <?php if (disqus()): ?>
                 <aside class="comments aside section">
                     <div class="section-inner">
-                        <h2 class="heading">Comments</h2>
+                        <h2 class="heading"><?php echo i18n("Comments");?></h2>
                         <div class="content">
                             <?php echo recent_comments() ?>
                             <style>.dsq-widget-list {padding:0;}li.dsq-widget-item {color:#434343;border-bottom: 1px dotted #d9d9d9;margin: 0 0 10px;padding-bottom: 10px;font-size:14px;}li.dsq-widget-item:last-child{border-bottom:none;margin-bottom:0;}a.dsq-widget-user {font-weight:normal;}img.dsq-widget-avatar {margin-right:10px; }.dsq-widget-comment {display:block;padding-top:5px;}.dsq-widget-comment p {display:block;margin:0;padding:0!important;font-size:14px!important;}p.dsq-widget-meta {padding-top:5px!important;margin:0;font-size:14px!important;}#dsq-combo-widget.grey #dsq-combo-content .dsq-combo-box {background: transparent;}#dsq-combo-widget.grey #dsq-combo-tabs li {background: #DDDDDD;}</style>
@@ -155,7 +146,7 @@
                 <?php endif; ?>
                 <aside class="archive aside section">
                     <div class="section-inner">
-                        <h2 class="heading">Archive</h2>
+                        <h2 class="heading"><?php echo i18n("Archives");?></h2>
                         <div class="content">
                             <?php echo archive_list();?>
                         </div><!--//content-->
@@ -189,8 +180,8 @@
         </div><!--//container-->
     </footer><!--//footer-->
     <!-- Javascript -->          
-    <script type="text/javascript" src="<?php echo site_url();?>themes/blog/js/jquery-latest.min.js"></script>
-    <script type="text/javascript" src="<?php echo site_url();?>themes/blog/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?php echo theme_path();?>js/jquery-latest.min.js"></script>
+    <script type="text/javascript" src="<?php echo theme_path();?>js/bootstrap.min.js"></script>
 <?php if (analytics()): ?><?php echo analytics() ?><?php endif; ?>    
 </body>
 </html> 

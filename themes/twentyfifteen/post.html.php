@@ -40,7 +40,7 @@
     <div class="author-info">
         <h2 class="author-heading"><?php echo i18n('Published').' '.i18n('by');?></h2>
         <div class="author-avatar">
-            <img width="56" height="56" class="avatar avatar-56" src="<?php echo site_url();?>themes/twentyfifteen/images/avatar.png" alt="<?php echo $author->name; ?>">
+            <img width="56" height="56" class="avatar avatar-56" src="<?php echo theme_path();?>images/avatar.png" alt="<?php echo $author->name; ?>">
         </div><!-- .author-avatar -->
         <div class="author-description">
             <h3 class="author-title"><?php echo $author->name; ?></h3>
@@ -63,9 +63,9 @@
             <?php echo $p->tag; ?>
         </span>
         <?php if (disqus_count()) { ?>
-            <span class="comments-link"><a href="<?php echo $p->url ?>#disqus_thread"> <?php echo i18n('comments');?></a></span>
+            <span class="comments-link"><a href="<?php echo $p->url ?>#disqus_thread"> <?php echo i18n('Comments');?></a></span>
         <?php } elseif (facebook()) { ?>
-            <span class="comments-link"><a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n('comments');?></span></a></span>
+            <span class="comments-link"><a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n('Comments');?></span></a></span>
         <?php } ?>
     </footer>
 </article>
@@ -89,10 +89,10 @@
     <h2 class="screen-reader-text">Post navigation</h2>
     <div class="nav-links">
         <?php if (!empty($prev)): ?>
-            <div class="nav-previous"><a style="background-image: url(<?php echo($prev['image']); ?>);<?php if (!empty($prev['image'])):?>color:#fff;<?php endif;?>" rel="prev" href="<?php echo($prev['url']); ?>"><span style="<?php if (!empty($prev['image'])):?>color:#fff;<?php endif;?>" aria-hidden="true" class="meta-nav">Previous</span> <span class="screen-reader-text">Previous post:</span> <span class="post-title"><?php echo($prev['title']); ?></span></a></div>
+            <div class="nav-previous"><a style="background-image: url(<?php echo($prev['image']); ?>);<?php if (!empty($prev['image'])):?>color:#fff;<?php endif;?>" rel="prev" href="<?php echo($prev['url']); ?>"><span style="<?php if (!empty($prev['image'])):?>color:#fff;<?php endif;?>" aria-hidden="true" class="meta-nav"><?php echo i18n('Prev');?></span> <span class="screen-reader-text">Previous post:</span> <span class="post-title"><?php echo($prev['title']); ?></span></a></div>
         <?php endif; ?>
         <?php if (!empty($next)): ?>
-            <div class="nav-next"><a style="background-image: url(<?php echo($next['image']); ?>);<?php if (!empty($next['image'])):?>color:#fff;<?php endif;?>" rel="next" href="<?php echo($next['url']); ?>"><span style="<?php if (!empty($next['image'])):?>color:#fff;<?php endif;?>" aria-hidden="true" class="meta-nav">Next</span> <span class="screen-reader-text">Next post:</span> <span class="post-title"><?php echo($next['title']); ?></span></a></div>
+            <div class="nav-next"><a style="background-image: url(<?php echo($next['image']); ?>);<?php if (!empty($next['image'])):?>color:#fff;<?php endif;?>" rel="next" href="<?php echo($next['url']); ?>"><span style="<?php if (!empty($next['image'])):?>color:#fff;<?php endif;?>" aria-hidden="true" class="meta-nav"><?php echo i18n('Next');?></span> <span class="screen-reader-text">Next post:</span> <span class="post-title"><?php echo($next['title']); ?></span></a></div>
         <?php endif; ?>
     </div>
 </nav>

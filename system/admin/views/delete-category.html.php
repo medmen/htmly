@@ -4,15 +4,8 @@ if (isset($_GET['destination'])) {
     $destination = _h($_GET['destination']);
 }
 $url = $p->file;
-
-$dir = substr($url, 0, strrpos($url, '/'));
-$oldurl = str_replace($dir . '/', '', $url);
-$oldmd = str_replace('.md', '', $oldurl);
-
 $post = $p->url;
-
 if (isset($destination)) {
-
     if ($destination == 'post') {
         $back = $post;
     } else {
@@ -21,8 +14,9 @@ if (isset($destination)) {
 } else {
     $back = site_url();
 }
+$info = $p->title . ' (' . $p->file . ')';
 ?>
-<p><?php echo sprintf(i18n('Are_you_sure_you_want_to_delete_'), $p->title);?></p>
+<p><?php echo sprintf(i18n('Are_you_sure_you_want_to_delete_'), $info);?></p>
 <form method="POST">
     <input type="hidden" name="file" value="<?php echo $p->file ?>"/><br>
     <input type="hidden" name="csrf_token" value="<?php echo get_csrf() ?>">

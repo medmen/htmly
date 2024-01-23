@@ -2,33 +2,23 @@
 <?php if (!empty($breadcrumb)): ?>
     <div class="breadcrumb"><?php echo $breadcrumb ?></div>
 <?php endif; ?>
-<?php if (config('category.info') === 'true'):?>
-    <?php if (!empty($category)): ?>
-        <div class="section">
-            <div class="section-inner">
-                <div class="content">
-                    <div class="item">
-                    <h2 class="title"><?php echo $category->title;?></h2>
-                    <div class="text-left">                                   
-                        <?php echo $category->body; ?>
-                    </div><!--//desc-->
-                    </div><!--//item-->                       
-                </div><!--//content-->  
-            </div>
+<?php if (!empty($category)): ?>
+    <div class="section">
+        <div class="section-inner">
+            <div class="content">
+                <div class="item">
+                <h2 class="title"><?php echo $category->title;?></h2>
+                <span class="social-navigation feed-link"><a href="<?php echo $category->url;?>/feed"><i class="fa fa-rss"></i></a></span>
+                <div class="text-left">                                   
+                    <?php echo $category->body; ?>
+                </div><!--//desc-->
+                </div><!--//item-->                       
+            </div><!--//content-->  
         </div>
-    <?php endif; ?>
+    </div>
 <?php endif; ?>
-<?php $i = 0; $len = count($posts); ?>
 <?php foreach ($posts as $p): ?>
-    <?php if ($i == 0) {
-        $class = 'post first';
-    } elseif ($i == $len - 1) {
-        $class = 'post last';
-    } else {
-        $class = 'post';
-    }
-    $i++; ?>
-<section class="post section <?php echo $class ?>" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<section class="post section" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
     <div class="section-inner">
         <div class="content">
             <div class="item">
@@ -59,15 +49,15 @@
                         <h2 class="title" itemprop="headline"><a href="<?php echo $p->url;?>"><?php echo $p->title;?></a></h2>
                     <?php } ?>
                     <p class="meta">
-                        <span class="date" itemprop="datePublished"><?php echo format_date($p->date) ?></span> - Posted in 
-                        <span itemprop="articleSection"><?php echo $p->category;?></span> by 
+                        <span class="date" itemprop="datePublished"><?php echo format_date($p->date) ?></span> - <?php echo i18n("Posted_in");?> 
+                        <span itemprop="articleSection"><?php echo $p->category;?></span> <?php echo i18n("by");?> 
                         <span class="author" itemprop="author"><a href="<?php echo $p->authorUrl;?>"><?php echo $p->authorName;?></a></span>
                         <?php if (disqus_count()) { ?> 
-                            with <span><i class="fa fa-comments"></i> <a href="<?php echo $p->url ?>#disqus_thread"> comments</a></span>
+                            - <span><i class="fa fa-comments"></i> <a href="<?php echo $p->url ?>#disqus_thread"> <?php echo i18n("Comments");?></a></span>
                         <?php } elseif (facebook()) { ?> 
-                            with <i class="fa fa-comments"></i> <a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> comments</span></a>
+                            - <i class="fa fa-comments"></i> <a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n("Comments");?></span></a>
                         <?php } ?>
-						<?php if (login()) { echo ' - <span><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
+                        <?php if (login()) { echo ' - <span><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
                     </p>
                 </div>
                 <div class="desc text-left" itemprop="articleBody">                                    

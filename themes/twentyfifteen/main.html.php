@@ -1,18 +1,34 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <?php if (isset($is_category)):?>
-    <header class="page-header"><h1 class="page-title"><?php echo i18n('Category');?>: <?php echo $category->title;?></h1><div class="taxonomy-description"><?php echo $category->body;?></div></header>
+    <header class="page-header">
+		<span class="social-navigation feed-link"><a href="<?php echo $category->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
+		<h1 class="page-title"><?php echo i18n('Category');?>: <?php echo $category->title;?></h1>
+		<div class="taxonomy-description"><?php echo $category->body;?></div>
+	</header>
 <?php endif;?>
 <?php if (isset($is_tag)):?>
-    <header class="page-header"><h1 class="page-title">Tag: <?php echo $tag->title;?></h1></header>
+    <header class="page-header">
+		<span class="social-navigation feed-link"><a href="<?php echo $tag->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
+		<h1 class="page-title"><?php echo i18n('Tags');?>: <?php echo $tag->title;?></h1>
+	</header>
 <?php endif;?>
 <?php if (isset($is_archive)):?>
-    <header class="page-header"><h1 class="page-title">Archive: <?php echo $archive->title;?></h1></header>
+    <header class="page-header">
+		<span class="social-navigation feed-link"><a href="<?php echo $archive->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
+		<h1 class="page-title"><?php echo i18n('Archives');?>: <?php echo $archive->title;?></h1>
+	</header>
 <?php endif;?>
 <?php if (isset($is_search)):?>
-    <header class="page-header"><h1 class="page-title">Search: <?php echo $search->title;?></h1></header>
+    <header class="page-header">
+		<span class="social-navigation feed-link"><a href="<?php echo $search->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
+		<h1 class="page-title"><?php echo i18n('Search');?>: <?php echo $search->title;?></h1>
+	</header>
 <?php endif;?>
 <?php if (isset($is_type)):?>
-    <header class="page-header"><h1 class="page-title">Type: <?php echo ucfirst($type->title);?></h1></header>
+    <header class="page-header">
+		<span class="social-navigation feed-link"><a href="<?php echo $type->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
+		<h1 class="page-title">Type: <?php echo ucfirst($type->title);?></h1>
+	</header>
 <?php endif;?>
 <?php foreach ($posts as $p): ?>
 <article class="post type-post hentry <?php if (!empty($p->image) || !empty ($p->audio) || !empty ($p->video)):?>has-post-thumbnail<?php endif;?>">
@@ -65,9 +81,9 @@
             <?php echo $p->tag; ?>
         </span>
         <?php if (disqus_count()) { ?>
-            <span class="comments-link"><a href="<?php echo $p->url ?>#disqus_thread"> comments</a></span>
+            <span class="comments-link"><a href="<?php echo $p->url ?>#disqus_thread"> <?php echo i18n('Comments');?></a></span>
         <?php } elseif (facebook()) { ?>
-            <span class="comments-link"><a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> comments</span></a></span>
+            <span class="comments-link"><a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n('Comments');?></span></a></span>
         <?php } ?>
 		<?php if (login()) { echo '<span class="edit-link"><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
     </footer>

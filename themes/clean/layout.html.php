@@ -1,12 +1,12 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <!DOCTYPE html>
-<html lang="<?php echo str_replace('_', '-', config('language'));?>">
+<html lang="<?php echo blog_language();?>">
 <head>
     <?php echo head_contents() ?>
     <title><?php echo $title;?></title>
     <meta name="description" content="<?php echo $description; ?>"/>
     <link rel="canonical" href="<?php echo $canonical; ?>" />
-    <link href="<?php echo site_url() ?>themes/clean/css/style.css" rel="stylesheet"/>
+    <link href="<?php echo theme_path() ?>css/style.css" rel="stylesheet"/>
     <link href="//fonts.googleapis.com/css?family=Open+Sans+Condensed:700&subset=latin,cyrillic-ext" rel="stylesheet"/>
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -34,7 +34,7 @@
     <div class="archive"><h3><?php echo i18n('Archives');?></h3><?php echo archive_list() ?></div>
     <div class="category-list"><h3><?php echo i18n('Category');?></h3><?php echo category_list() ?></div>
     <div class="tagcloud">
-        <h3>Tags</h3>
+        <h3><?php echo i18n('Tags');?></h3>
         <div class="tag-cloud">
             <?php echo tag_cloud();?>
         </div>			

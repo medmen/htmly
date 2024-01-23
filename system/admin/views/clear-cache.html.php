@@ -1,10 +1,9 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <?php
 
-$files = array();
-$draft = array();
-$files = glob('content/*/blog/*.md', GLOB_NOSORT);
-$draft = glob('content/*/draft/*.md', GLOB_NOSORT);
+foreach (glob('cache/index/*.txt', GLOB_NOSORT) as $file) {
+    unlink($file);
+}
 
 rebuilt_cache('all');
 

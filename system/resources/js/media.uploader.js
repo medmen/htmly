@@ -1,31 +1,29 @@
 (function () {
-    var converter = new Markdown.Converter();
-    Markdown.Extra.init(converter);
-    var editor = new Markdown.Editor(converter);
 
-    //======Image Uploader=====
-    var callbackFunc;
+    //======Media Uploader=====
+
     var dialogClose = function() {
-        $('#insertImageDialog').modal('hide');
+        $('#insertMediaDialog').modal('hide');
         $('#insertImageDialogURL').val('');
         $('#insertImageDialogFile').val('');
         $('#insertMediaDialogURL').val('');
         $('#insertMediaDialogFile').val('');
     };
-    $('#insertImageDialogInsert').click( function() {
-        callbackFunc( $('#insertImageDialogURL').val().length > 0 ? $('#insertImageDialogURL').val() : null );
+    $('#insertMediaDialogInsert').click( function() {
+        $('.media-uploader').val('');
+        $('.imgPrev > img').remove();
+        $('.media-uploader').val( $('#insertMediaDialogURL').val().length > 0 ? $('#insertMediaDialogURL').val() : null );
+        $('.imgPrev').prepend($('<img>',{id:'imgFile',src: $('#insertMediaDialogURL').val()}));
         dialogClose();
     });
-    $('#insertImageDialogClose').click( function() {
-        callbackFunc(null);
+    $('#insertMediaDialogClose').click( function() {
         dialogClose();
     });
-    $('#insertImageDialogCancel').click( function() {
-        callbackFunc(null);
+    $('#insertMediaDialogCancel').click( function() {
         dialogClose();
     });
-    $('#insertImageDialogFile').on('input', function(){
-        var file = $("#insertImageDialogFile").prop("files");
+    $('#insertMediaDialogFile').on('input', function(){
+        var file = $("#insertMediaDialogFile").prop("files");
         var formData = new FormData();
         formData.append('file', file[0], file[0].name);
         // Set up the request.
@@ -38,7 +36,10 @@
             success: function (response) {
                 if (response.error == '0')
                 {
-                    callbackFunc(base_path + response.path);
+                    $('.media-uploader').val('');
+                    $('.imgPrev > img').remove();
+                    $('.media-uploader').val(base_path + response.path);
+                    $('.imgPrev').prepend($('<img>',{id:'imgFile',src: base_path + response.path}));
                     dialogClose();
                 }
                 else
@@ -47,7 +48,7 @@
                     else alert("An unknown error has occurred");
                     console.error("Bad Response");
                     console.error(response);
-                    $('#insertImageDialogFile').val('');
+                    $('#insertMediaDialogFile').val('');
                 }
             },
             failure: function (response) {
@@ -55,17 +56,13 @@
                 else alert("An unknown error has occurred");
                 console.error("Unable to Upload");
                 console.error(response);
-                $('#insertImageDialogFile').val('');
+                $('#insertMediaDialogFile').val('');
             }
         });//ajax
     });//oninput
-    editor.hooks.set('insertImageDialog', function(callback) {
-        $('#insertImageDialog').modal('show');
-        callbackFunc = callback;
-
-        return true; // tell the editor that we'll take care of getting the image url
+    
+    $('#insertButton').click(function() {
+        $('#insertMediaDialog').modal('show');
     });
-    //=====end image uploader=====
-    editor.run();
 
 })();

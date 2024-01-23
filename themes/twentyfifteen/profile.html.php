@@ -1,16 +1,17 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <article class="page type-page hentry">
     <header class="entry-header">
-        <h1 class="entry-title"><?php echo $name ?></h1>
+        <h1 class="entry-title"><?php echo $author->name ?></h1>
+		<span class="social-navigation feed-link"><a href="<?php echo $author->url;?>/feed"><span class="screen-reader-text">RSS</span></a></span>
     </header>
     <div class="entry-content">
-        <?php echo $about ?>
-        <h2 class="post-index">Posts by this author</h2>
+        <?php echo $author->about ?>
+        <h2 class="post-index"><?php echo i18n('Post_by_author');?></h2>
         <?php if (!empty($posts)) { ?>
             <ul class="post-list">
                 <?php foreach ($posts as $p): ?>
                     <li class="item">
-                        <span><a href="<?php echo $p->url ?>"><?php echo $p->title ?></a></span> on
+                        <span><a href="<?php echo $p->url ?>"><?php echo $p->title ?></a></span> -
                         <span><?php echo format_date($p->date) ?></span> - <?php echo i18n('Posted_in');?> <span><?php echo $p->category; ?></span>
                     </li>
                 <?php endforeach; ?>

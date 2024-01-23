@@ -6,17 +6,17 @@
     <div class="section-inner">
         <div class="content"> 
             <div class="item" itemtype="http://schema.org/Person" itemscope="itemscope" itemprop="Person">
-                <h2 class="title" itemprop="name"><?php echo $name ?></h2>
+                <h2 class="title" itemprop="name"><?php echo $author->name ?></h2>
                 <div class="desc text-left" itemprop="description">                                    
-                    <?php echo $about; ?>
+                    <?php echo $author->about; ?>
                 </div><!--//desc-->
-                <h3>Posts by this author</h3>
+                <h3><?php echo i18n("Post_by_author");?></h3>
                 <?php if (!empty($posts)) { ?>
                     <ul class="post-list">
                         <?php foreach ($posts as $p): ?>
                             <li class="item">
-                                <span><a href="<?php echo $p->url ?>"><?php echo $p->title ?></a></span> on
-                                <span><?php echo format_date($p->date) ?></span> - Posted in <span><?php echo $p->category ?></span>
+                                <span><a href="<?php echo $p->url ?>"><?php echo $p->title ?></a></span> -
+                                <span><?php echo format_date($p->date) ?></span> - <?php echo i18n("Posted_in");?> <span><?php echo $p->category ?></span>
                             </li>
                         <?php endforeach; ?>
                     </ul>
