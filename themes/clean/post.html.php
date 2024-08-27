@@ -38,7 +38,7 @@
                 <blockquote><?php echo $p->quote ?></blockquote>
             </div>
         <?php } ?>
-        <div class="post-body" itemprop="articleBody">
+        <div class="post-body post-<?php echo $p->date;?>" itemprop="articleBody">
             <?php echo $p->body; ?>
         </div>
         <div class="tags"><strong><?php echo i18n('Tags'); ?>:</strong> <?php echo $p->tag;?></div>
@@ -70,10 +70,10 @@
     </div>
     <div class="postnav">
         <?php if (!empty($next)): ?>
-            <span><a href="<?php echo($next['url']); ?>" class="pagination-arrow newer" rel="next"><?php echo($next['title']); ?></a></span>
+            <span><a href="<?php echo($next['url']); ?>" class="pagination-arrow newer" rel="next" style="margin-bottom:5px;"><?php echo($next['title']); ?></a></span>
         <?php endif; ?>
         <?php if (!empty($prev)): ?>
-            <span><a href="<?php echo($prev['url']); ?>" class="pagination-arrow older" rel="prev"><?php echo($prev['title']); ?></a></span>
+            <span><a href="<?php echo($prev['url']); ?>" class="pagination-arrow older" rel="prev" style="margin-bottom:5px;"><?php echo($prev['title']); ?></a></span>
         <?php endif; ?>
     </div>
     <?php if (disqus()): ?>

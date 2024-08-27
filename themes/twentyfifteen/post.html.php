@@ -2,7 +2,7 @@
 <article class="post type-post hentry <?php if (!empty($p->image) || !empty ($p->audio) || !empty ($p->video)):?>has-post-thumbnail<?php endif;?>">
     <?php if (!empty($p->image)):?>
     <div class="post-thumbnail">
-        <img style="width:100%;" title="<?php echo $p->title; ?>" alt="<?php echo $p->title; ?>" class="attachment-post-thumbnail wp-post-image" src="<?php echo $p->image; ?>">
+        <a href="<?php echo $p->url; ?>"><img style="width:100%;" title="<?php echo $p->title; ?>" alt="<?php echo $p->title; ?>" class="attachment-post-thumbnail wp-post-image" src="<?php echo $p->image; ?>"></a>
     </div>
     <?php endif; ?>
     <?php if (!empty($p->audio)):?>
@@ -28,7 +28,7 @@
             <h1 class="entry-title"><?php echo $p->title; ?></h1>
         <?php } ?>
     </header>
-    <div class="entry-content">
+    <div class="entry-content post-<?php echo $p->date;?>">
         <?php echo $p->body; ?>
     </div>
     <style>.related {padding-bottom:2em;}.related p {margin-top:0;margin-bottom:0.5em;} .related ul {margin-left:1em;}</style>
@@ -40,7 +40,7 @@
     <div class="author-info">
         <h2 class="author-heading"><?php echo i18n('Published').' '.i18n('by');?></h2>
         <div class="author-avatar">
-            <img width="56" height="56" class="avatar avatar-56" src="<?php echo theme_path();?>images/avatar.png" alt="<?php echo $author->name; ?>">
+            <img width="56" height="56" class="avatar avatar-56" src="<?php echo $author->avatar; ?>" alt="<?php echo $author->name; ?>">
         </div><!-- .author-avatar -->
         <div class="author-description">
             <h3 class="author-title"><?php echo $author->name; ?></h3>

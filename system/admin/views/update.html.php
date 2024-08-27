@@ -19,14 +19,13 @@ if (defined("JSON_PRETTY_PRINT")) {
         'cache/installedVersion.json',
         json_encode(array(
             "tag_name" => constant('HTMLY_VERSION')
-        ), JSON_PRETTY_PRINT)
-    );
+        ), JSON_PRETTY_PRINT), LOCK_EX);
 } else {
     file_put_contents(
         'cache/installedVersion.json',
         json_encode(array(
             "tag_name" => constant('HTMLY_VERSION')
-        ))
+        )), LOCK_EX
     );
 }
 
@@ -55,5 +54,10 @@ if (empty($updater->getNewestInfo())) {
         echo \Michelf\MarkdownExtra::defaultTransform($info['body']);
         echo '</div>';
         echo '<p><a class="btn btn-primary" target="_blank" href="' . $info['html_url'] . '">Read on Github</a></p>';
+        if (config('show.version') == 'false') {
+            if(file_exists('cache/installedVersion.json')) {
+                unlink('cache/installedVersion.json');
+            }
+        }
     }
 }

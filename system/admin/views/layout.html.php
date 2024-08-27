@@ -1,6 +1,6 @@
 <?php if (!defined('HTMLY')) die('HTMLy'); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="<?php echo blog_language();?>">
 <head>
     <?php echo head_contents();?>
     <title><?php echo $title;?></title>
@@ -10,9 +10,25 @@
     <link href="<?php echo site_url() ?>system/resources/css/adminlte.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <script src="<?php echo site_url() ?>system/resources/js/jquery.min.js"></script>
+    <script src="<?php echo site_url() ?>system/resources/js/jquery-ui.min.js"></script>
 </head>
-<?php if (login()) { ?>
+<?php if (login()) { 
+$user = $_SESSION[site_url()]['user'];
+$role = user('role', $user);
+$author = get_author($user);
+if (isset($author[0])) {
+    $author = $author[0];
+} else {
+    $author = default_profile($user);
+}
+if (isset($_GET['search'])) {
+    $search = _h($_GET['search']);
+    $url = site_url() . 'search/' . remove_accent($search);
+    header("Location: $url");
+}
+?>
 <body class="hold-transition sidebar-mini">
+<div id="top"></div>
 <div class="wrapper">
 <style>.error-message ul {margin:0;padding:0;}</style>
   <!-- Navbar -->
@@ -45,7 +61,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="<?php echo site_url(); ?>system/resources/images/logo-small.png" class="img-circle elevation-2" alt="HTMLy logo">
+          <img src="<?php echo $author->avatar; ?>" class="img-circle elevation-2" alt="HTMLy logo">
         </div>
         <div class="info">
           <a href="<?php echo site_url();?>admin" class="d-block"><?php echo i18n('Dashboard')?></a>
@@ -74,10 +90,19 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <?php if ($role === 'editor' || $role === 'admin'):?>
               <li class="nav-item">
                 <a href="<?php echo site_url();?>admin/posts" class="nav-link">
                   <p>
                      <?php echo i18n('Posts_list'); ?>
+                  </p>
+                </a>
+              </li>
+			  <?php endif;?>
+              <li class="nav-item">
+                <a href="<?php echo site_url();?>admin/mine" class="nav-link">
+                  <p>
+                    <?php echo i18n('My_posts');?>
                   </p>
                 </a>
               </li>
@@ -95,13 +120,16 @@
                   </p>
                 </a>
               </li>
+              <?php if ($role === 'editor' || $role === 'admin'):?>
+              <?php if (config('views.counter') == 'true') : ?>
               <li class="nav-item">
-                <a href="<?php echo site_url();?>admin/pages" class="nav-link">
+                <a href="<?php echo site_url();?>admin/popular" class="nav-link">
                   <p>
-                     <?php echo i18n('Static_pages'); ?>
+                    <?php echo i18n('Popular_posts');?>
                   </p>
                 </a>
               </li>
+              <?php endif; ?>
               <li class="nav-item">
                 <a href="<?php echo site_url();?>admin/categories" class="nav-link">
                   <p>
@@ -109,8 +137,17 @@
                   </p>
                 </a>
               </li>
+              <li class="nav-item">
+                <a href="<?php echo site_url();?>admin/pages" class="nav-link">
+                  <p>
+                     <?php echo i18n('Static_pages'); ?>
+                  </p>
+                </a>
+              </li>
+              <?php endif;?>
             </ul>
           </li>
+          <?php if ($role === 'editor' || $role === 'admin'):?>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-cogs"></i>
@@ -120,6 +157,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              <?php if ($role === 'admin'):?>
               <li class="nav-item">
                 <a href="<?php echo site_url();?>admin/config" class="nav-link">
                   <p>
@@ -128,14 +166,26 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a href="<?php echo site_url();?>admin/users" class="nav-link">
+                  <p>
+                      <?php echo i18n('Manage_users'); ?>
+                  </p>
+                </a>
+              </li>
+              <?php endif;?>
+              <?php if ($role === 'editor' || $role === 'admin'):?>
+              <li class="nav-item">
                 <a href="<?php echo site_url();?>admin/menu" class="nav-link">
                   <p>
                     <?php echo i18n('Menus');?>
                   </p>
                 </a>
               </li>
+              <?php endif;?>
             </ul>
           </li>
+          <?php endif;?>
+          <?php if ($role === 'editor' || $role === 'admin'):?>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-briefcase"></i>
@@ -152,6 +202,7 @@
                   </p>
                 </a>
               </li>
+              <?php if ($role === 'admin'):?>
               <li class="nav-item">
                 <a href="<?php echo site_url();?>admin/update" class="nav-link">
                   <p>
@@ -173,17 +224,10 @@
                   </p>
                 </a>
               </li>
-              <?php if (config('views.counter') == 'true') { ?>
-              <li class="nav-item">
-                <a href="<?php echo site_url();?>admin/popular" class="nav-link">
-                  <p>
-                    <?php echo i18n('Popular_posts');?>
-                  </p>
-                </a>
-              </li>
-              <?php } ?>
+              <?php endif;?>
             </ul>
           </li>
+          <?php endif;?>
           <li class="nav-item has-treeview menu-open">
             <a href="#" class="nav-link">
               <i class="nav-icon fa fa-user"></i>
@@ -194,12 +238,21 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo site_url();?>admin/mine" class="nav-link">
+                <a href="<?php echo site_url();?>edit/password" class="nav-link">
                   <p>
-                    <?php echo i18n('My_posts');?>
+                    <?php echo i18n('Change_password');?>
                   </p>
                 </a>
               </li>
+              <?php if (config('mfa.state') === 'true'): ?>
+              <li class="nav-item">
+                <a href="<?php echo site_url();?>edit/mfa" class="nav-link">
+                  <p>
+                    <?php echo i18n('config_mfa');?>
+                  </p>
+                </a>
+              </li>
+              <?php endif;?>
               <li class="nav-item">
                 <a href="<?php echo site_url();?>edit/profile" class="nav-link">
                   <p>
@@ -276,7 +329,7 @@
       <small><?php echo i18n('Admin_panel_style_based_on');?> <a rel="nofollow" target="_blank" href="https://github.com/ColorlibHQ/AdminLTE">AdminLTE</a></small>
     </div>
     <!-- Default to the left -->
-    <?php echo i18n('Proudly_powered_by');?> <a href="https://www.htmly.com" target="_blank">HTMLy</a>
+    <?php echo i18n('Proudly_powered_by');?> <a href="https://www.htmly.com" target="_blank"><?php echo 'HTMLy ' . constant('HTMLY_VERSION'); ?></a>
   </footer>
 </div>
 <!-- ./wrapper -->
@@ -300,7 +353,44 @@
   
 </div>
 <?php } ?>
+<style>
+.top-link {
+visibility: hidden;
+position: fixed;
+bottom: 60px;
+right: 30px;
+z-index: 99;
+background: #ddd;
+width: 42px;
+height: 42px;
+padding: 12px;
+border-radius: 64px;
+transition: visibility 0.5s, opacity 0.8s linear;
+border: none;
+font-size:13px;
+}
 
+.top-link:focus {
+  outline: none;
+}
+</style>
+<a href="#top" aria-label="go to top" title="Go to Top" class="top-link" id="top-link">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z"></path>
+    </svg>
+</a>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+</script>
 <script src="<?php echo site_url() ?>system/resources/js/bootstrap.min.js"></script>
 <script src="<?php echo site_url() ?>system/resources/js/adminlte.min.js"></script>
 </body>

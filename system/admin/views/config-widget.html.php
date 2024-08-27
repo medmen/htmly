@@ -5,8 +5,10 @@
   <div class="nav nav-tabs" id="nav-tab">
     <a class="nav-item nav-link" id="nav-general-tab" href="<?php echo site_url();?>admin/config"><?php echo i18n('General');?></a>
     <a class="nav-item nav-link" id="nav-profile-tab" href="<?php echo site_url();?>admin/config/reading"><?php echo i18n('Reading');?></a>
+    <a class="nav-item nav-link" id="nav-writing-tab" href="<?php echo site_url();?>admin/config/writing"><?php echo i18n('Writing');?></a>
     <a class="nav-item nav-link active" id="nav-widget-tab" href="<?php echo site_url();?>admin/config/widget"><?php echo i18n('Widget');?></a>
     <a class="nav-item nav-link" id="nav-metatags-tab" href="<?php echo site_url();?>admin/config/metatags"><?php echo i18n('Metatags');?></a>
+    <a class="nav-item nav-link" id="nav-security-tab" href="<?php echo site_url();?>admin/config/security"><?php echo i18n('Security');?></a>
     <a class="nav-item nav-link" id="nav-performance-tab" href="<?php echo site_url();?>admin/config/performance"><?php echo i18n('Performance');?></a>
     <a class="nav-item nav-link" id="nav-custom-tab" href="<?php echo site_url();?>admin/config/custom"><?php echo i18n('Custom');?></a>
   </div>  
@@ -58,9 +60,82 @@
     </div>
   </div>
   <br>
+  <h4>TOC (Table of Contents)</h4>
+  <hr>
+  <div class="form-group row">
+    <label for="toc.label" class="col-sm-2 col-form-label">TOC label</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-toc.label" class="form-control" id="toc.label" value="<?php if(is_null(config('toc.label'))) {echo 'Table of Contents';} else {echo config('toc.label');};?>" placeholder="Table of Contents">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">TOC initial state</label>
+    <div class="col-sm-10">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.state" id="toc.state1" value="open" <?php if (config('toc.state') === 'open'):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.state1">
+            Open
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.state" id="toc.state2" value="close" <?php if (config('toc.state') === 'close' || is_null(config('toc.state'))):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.state2">
+            Close
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">TOC styling</label>
+    <div class="col-sm-10">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.style" id="toc.style1" value="default" <?php if (config('toc.style') === 'default' || is_null(config('toc.style'))):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.style1">
+            Default
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.style" id="toc.style2" value="theme" <?php if (config('toc.style') === 'theme'):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.style2">
+            Theme
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Automatic TOC</label>
+    <div class="col-sm-10">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.automatic" id="toc.automatic1" value="true" <?php if (config('toc.automatic') === 'true'):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.automatic1">
+            <?php echo i18n('Enable');?>
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-toc.automatic" id="toc.automatic2" value="false" <?php if (config('toc.automatic') === 'false' || is_null(config('toc.automatic'))):?>checked<?php endif;?>>
+          <label class="form-check-label" for="toc.automatic2">
+            <?php echo i18n('Disable');?>
+          </label>
+        </div>
+      </div>
+      <small><em>It will check the shortcode first before add the TOC to <code>post</code> or <code>page/subpage</code></em></small>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="toc.position" class="col-sm-2 col-form-label">TOC position after x paragraph</label>
+    <div class="col-sm-10">
+      <input type="number" name="-config-toc.position" class="form-control" id="toc.position" value="<?php echo config('toc.position');?>">
+    </div>
+  </div>
+  <br>
   <h4><?php echo i18n('Comments');?></h4>
   <hr>
-  <p><?php echo i18n('To_using_Disqus_or_Facebook_comment_you_need_to_provide_Disqus_shortname_or_Facebook_App_ID');?></p>
+  <p><?php echo i18n('To_use_Disqus_or_Facebook_comment_you_need_to_provide_Disqus_shortname_or_Facebook_App_ID');?></p>
   <div class="form-group row">
     <label class="col-sm-2 col-form-label"><?php echo i18n('Comment_system');?></label>
     <div class="col-sm-10">
@@ -99,41 +174,6 @@
     </div>
   </div>
   <br>
-  <h4><?php echo i18n('Recaptcha');?></h4>
-  <hr>
-  <p><?php echo i18n('Get_one_here');?>  <a target="_blank" href="https://www.google.com/recaptcha/admin">https://www.google.com/recaptcha/admin</a>
-  <div class="form-group row">
-    <label class="col-sm-2 col-form-label"><?php echo i18n('Recaptcha');?></label>
-    <div class="col-sm-10">
-      <div class="col-sm-10">
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="-config-google.reCaptcha" id="google.reCaptcha1" value="true" <?php if (config('google.reCaptcha') === 'true'):?>checked<?php endif;?>>
-          <label class="form-check-label" for="google.reCaptcha1">
-            <?php echo i18n('Enable');?>
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="-config-google.reCaptcha" id="google.reCaptcha2" value="false" <?php if (config('google.reCaptcha') === 'false'):?>checked<?php endif;?>>
-          <label class="form-check-label" for="google.reCaptcha2">
-            <?php echo i18n('Disable');?>
-          </label>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="google.reCaptcha.public" class="col-sm-2 col-form-label"><?php echo i18n('Site_Key');?></label>
-    <div class="col-sm-10">
-      <input type="text" name="-config-google.reCaptcha.public" class="form-control" id="google.reCaptcha.public" value="<?php echo valueMaker(config('google.reCaptcha.public'));?>" placeholder="<?php echo i18n('widget_key_placeholder');?>">
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="google.reCaptcha.private" class="col-sm-2 col-form-label"><?php echo i18n('Secret_Key');?></label>
-    <div class="col-sm-10">
-      <input type="text" name="-config-google.reCaptcha.private" class="form-control" id="google.reCaptcha.private" value="<?php echo valueMaker(config('google.reCaptcha.private'));?>" placeholder="<?php echo i18n('widget_key_placeholder');?>">
-    </div>
-  </div>
-  <br>
   <h4><?php echo i18n('Google_Analytics');?></h4>
   <hr>
   <div class="form-group row">
@@ -160,15 +200,51 @@
   <h4><?php echo i18n('Social_Media');?></h4>
   <hr>
   <div class="form-group row">
-    <label for="google.reCaptcha.private" class="col-sm-2 col-form-label"><?php echo i18n('Twitter_account');?></label>
+    <label for="social.twitter" class="col-sm-2 col-form-label">Twitter</label>
     <div class="col-sm-10">
-      <input type="text" name="-config-social.twitter" class="form-control" id="social.twitter" value="<?php echo valueMaker(config('social.twitter'));?>" placeholder="https://twitter.com/gohtmly">
+      <input type="text" name="-config-social.twitter" class="form-control" id="social.twitter" value="<?php echo config('social.twitter');?>" placeholder="https://twitter.com/gohtmly">
     </div>
   </div>
   <div class="form-group row">
-    <label for="google.reCaptcha.private" class="col-sm-2 col-form-label"><?php echo i18n('Facebook_page');?></label>
+    <label for="social.facebook" class="col-sm-2 col-form-label">Facebook</label>
     <div class="col-sm-10">
-      <input type="text" name="-config-social.facebook" class="form-control" id="social.facebook" value="<?php echo valueMaker(config('social.facebook'));?>" placeholder="https://www.facebook.com/gohtmly">
+      <input type="text" name="-config-social.facebook" class="form-control" id="social.facebook" value="<?php echo config('social.facebook');?>" placeholder="https://www.facebook.com/gohtmly">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.instagram" class="col-sm-2 col-form-label">Instagram</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.instagram" class="form-control" id="social.instagram" value="<?php echo config('social.instagram');?>" placeholder="https://www.instagram.com/username">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.linkedin" class="col-sm-2 col-form-label">Linkedin</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.linkedin" class="form-control" id="social.linkedin" value="<?php echo config('social.linkedin');?>" placeholder="https://www.linkedin.com/in/username">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.github" class="col-sm-2 col-form-label">Github</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.github" class="form-control" id="social.github" value="<?php echo config('social.github');?>" placeholder="https://github.com/username">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.mastodon" class="col-sm-2 col-form-label">Mastodon</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.mastodon" class="form-control" id="social.mastodon" value="<?php echo config('social.mastodon');?>" placeholder="https://mastodon.social/@username">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.tiktok" class="col-sm-2 col-form-label">TikTok</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.tiktok" class="form-control" id="social.tiktok" value="<?php echo config('social.tiktok');?>" placeholder="https://tiktok.com/@username">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label for="social.youtube" class="col-sm-2 col-form-label">Youtube</label>
+    <div class="col-sm-10">
+      <input type="text" name="-config-social.youtube" class="form-control" id="social.youtube" value="<?php echo config('social.youtube');?>" placeholder="https://www.youtube.com/user/username">
     </div>
   </div>
   <div class="form-group row">

@@ -30,11 +30,12 @@
 		<h1 class="page-title">Type: <?php echo ucfirst($type->title);?></h1>
 	</header>
 <?php endif;?>
+<?php $teaserType = config('teaser.type'); $readMore = config('read.more');?>
 <?php foreach ($posts as $p): ?>
 <article class="post type-post hentry <?php if (!empty($p->image) || !empty ($p->audio) || !empty ($p->video)):?>has-post-thumbnail<?php endif;?>">
     <?php if (!empty($p->image)):?>
     <div class="post-thumbnail">
-        <img style="width:100%;" title="<?php echo $p->title; ?>" alt="<?php echo $p->title; ?>" class="attachment-post-thumbnail wp-post-image" src="<?php echo $p->image; ?>">
+        <a href="<?php echo $p->url; ?>"><img style="width:100%;" title="<?php echo $p->title; ?>" alt="<?php echo $p->title; ?>" class="attachment-post-thumbnail wp-post-image" src="<?php echo $p->image; ?>"></a>
     </div>
     <?php endif; ?>
     <?php if (!empty($p->audio)):?>
@@ -61,9 +62,9 @@
         <h2 class="entry-title"><a href="<?php echo $p->url; ?>"><?php echo $p->title; ?></a></h2>
     </header>
 	<?php } ?>
-    <div class="entry-content">
+    <div class="entry-content post-<?php echo $p->date;?>">
         <?php echo get_teaser($p->body, $p->url); ?>
-        <?php if (config('teaser.type') === 'trimmed'):?><a class="more-link" href="<?php echo $p->url; ?>"><?php echo config('read.more'); ?></a><?php endif;?>
+        <?php if ($teaserType === 'trimmed'):?>[...] <a class="more-link" href="<?php echo $p->url; ?>"><?php echo $readMore; ?></a><?php endif;?>
     </div>
     <footer class="entry-footer">
         <span class="posted-on">
@@ -85,7 +86,7 @@
         <?php } elseif (facebook()) { ?>
             <span class="comments-link"><a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n('Comments');?></span></a></span>
         <?php } ?>
-		<?php if (login()) { echo '<span class="edit-link"><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
+		<?php if (authorized($p)) { echo '<span class="edit-link"><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
     </footer>
 </article>
 <?php endforeach; ?>

@@ -7,7 +7,8 @@ timezone = "Asia/Jakarta"
 ; Date format.
 date.format = "d F Y"
 
-; Your language (example "en_US" for English or "de_DE" for German. See lang directory for available language)
+; Your language (example "en_US" for English or "de_DE" for German.
+; See lang directory for available language)
 language = "en_US"
 
 ; Blog info
@@ -28,6 +29,12 @@ blog.enable = "false"
 ; Social account
 social.twitter = ""
 social.facebook = ""
+social.instagram = ""
+social.linkedin = ""
+social.github = ""
+social.youtube = ""
+social.mastodon = ""
+social.tiktok = ""
 
 ; Breadcrumb home text. Useful when installed on subfolder.
 breadcrumb.home = "Home"
@@ -52,12 +59,16 @@ google.analytics.id = ""
 ; Google gtag analytics
 google.gtag.id = ""
 
-; Google reCaptcha
-; https://www.google.com/recaptcha/admin. Options "false" and "true"
+; Login protection system  Choose "google", "cloudflare", or "disable".
+; https://www.google.com/recaptcha/admin
+; https://developers.cloudflare.com/turnstile/
 
-google.reCaptcha = "false"
-google.reCaptcha.public = ""
-google.reCaptcha.private = ""
+login.protect.system = "disable"
+login.protect.public = ""
+login.protect.private = ""
+
+; Multi-factor authentication
+mfa.state = "false"
 
 ; Pagination, RSS, and JSON
 posts.perpage = "10"
@@ -84,11 +95,15 @@ popular.count = "5"
 ; Tagcloud
 tagcloud.count = "40"
 
+; Read more link text for "full" teaser type
+read.more = "Read more"
+
 ; Teaser type: set "trimmed" or "full".
 teaser.type = "full"
 
-; Read more link text for "full" teaser type
-read.more = "Read more"
+; In summary mode, whether check the shortcode first or not before trim the content to x char
+; Options: "default" and "check"
+teaser.behave = "default"
 
 ; Teaser character count
 teaser.char = "200"
@@ -102,16 +117,17 @@ rss.count = "10"
 ; RSS feed description length. If left empty we will use full page.
 rss.char = "200"
 
-; Enable views Counter, the options is "true" and "false". If set to "true", you can see the Counts in Admin page and popular posts.
+; Enable views Counter, the options is "true" and "false". 
+; If set to "true", you can see the Counts in Admin page and popular posts.
 views.counter = "false"
 
-; Sitemap priorities between "0.0" and "1.0". Set "false" to disable a sitemap for the given type. (See /sitemap.xml)
+; Sitemap priorities between "0.0" and "1.0". 
+; Set "-1" (minus one) to disable a sitemap for the given type. (See /sitemap.xml)
 sitemap.priority.base = "1.0"
 sitemap.priority.post = "0.5"
 sitemap.priority.static = "0.5"
 sitemap.priority.category = "0.5"
 sitemap.priority.tag = "0.5"
-sitemap.priority.archiveDay = "0.5"
 sitemap.priority.archiveMonth = "0.5"
 sitemap.priority.archiveYear = "0.5"
 sitemap.priority.author = "0.5"
@@ -135,8 +151,49 @@ cache.timestamp = "false"
 ; The site.url depends on where you are visiting from. Same installation 
 multi.site = "false"
 
+; TOC label
+toc.label = "Table of Contents"
+
+; TOC inital state. Option "close and "open"
+toc.state = "close"
+
+; Load the default style or not. Option "default" and "theme"
+toc.style = "default"
+
+; Automatically add TOC, but first it check if the shortcode available or not
+; Option "true" and "false"
+toc.automatic = "false"
+
+; Automatically insert the TOC after x paragraph
+toc.position = "1"
+
+; Title formats
+home.title.format = "%blog_title% - %blog_tagline%"
+post.title.format = "%post_title% - %blog_title%"
+page.title.format = "%page_title% - %blog_title%"
+category.title.format = "%category_title% - %blog_title%"
+tag.title.format = "%tag_title% - %blog_title%"
+archive.title.format = "%archive_title% - %blog_title%"
+search.title.format = "%search_title% - %blog_title%"
+type.title.format = "%type_title% - %blog_title%"
+profile.title.format = "%author_name% - %blog_title%"
+blog.title.format = "Blog - %blog_title%"
+default.title.format = "%page_title% - %blog_title%"
+
+; Default image for Open Graph
+default.image = ""
+
+; Favicon image
+favicon.image = ""
+
+; Autosave
+autosave.enable = "true"
+
+; Show HTMLy version
+show.version = "true"
+
 ; Set the theme here
-views.root = "themes/twentyfifteen"
+views.root = "themes/twentysixteen"
 
 ; Framework config. No need to edit.
 views.layout = "layout"

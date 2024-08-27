@@ -6,6 +6,7 @@
     <title><?php echo $title;?></title>
     <meta name="description" content="<?php echo $description; ?>"/>
     <link rel="canonical" href="<?php echo $canonical; ?>" />
+    <?php echo $metatags;?>
     <link rel="stylesheet" id="twentysixteen-fonts-css" href="https://fonts.googleapis.com/css?family=Merriweather%3A400%2C700%2C900%2C400italic%2C700italic%2C900italic%7CMontserrat%3A400%2C700%7CInconsolata%3A400&#038;subset=latin%2Clatin-ext" type="text/css" media="all" />
     <link rel="stylesheet" id="genericons-css"  href="<?php echo theme_path();?>genericons/genericons.css" type="text/css" media="all" />
     <link rel="stylesheet" id="twentysixteen-style-css"  href="<?php echo theme_path();?>css/style.css" type="text/css" media="all" />
@@ -39,7 +40,7 @@
                     <div id="site-header-menu" class="site-header-menu">
                         <nav id="site-navigation" class="main-navigation" role="navigation" aria-label="Primary Menu">
                             <div class="menu-main-container">
-                                <?php echo menu('primary-menu');?>
+                                <?php $primaryMenu = menu('primary-menu'); echo $primaryMenu;?>
                             </div>
                         </nav><!-- .main-navigation -->
                     </div><!-- .site-header-menu -->
@@ -116,20 +117,14 @@
             <footer id="colophon" class="site-footer" role="contentinfo">
                 <nav class="main-navigation" role="navigation" aria-label="Footer Primary Menu">
                     <div class="menu-main-container">
-                        <?php echo menu('primary-menu');?>
+                        <?php echo $primaryMenu;?>
                     </div>
                 </nav><!-- .main-navigation -->
-				<?php if(!empty(config('social.twitter')) || !empty(config('social.facebook'))):?>
                 <nav aria-label="Footer Social Links Menu" role="navigation" class="social-navigation">
                     <div class="menu-social-links-container">
-                    <ul class="social-links-menu" id="menu-social-links">
-                        <?php if(!empty(config('social.twitter'))):?><li><a href="<?php echo config('social.twitter');?>"><span class="screen-reader-text">Twitter</span></a></li><?php endif;?>
-                        <?php if(!empty(config('social.facebook'))):?><li><a href="<?php echo config('social.facebook');?>"><span class="screen-reader-text">Facebook</span></a></li><?php endif;?>
-                        <li><a href="<?php echo site_url();?>feed/rss"><span class="screen-reader-text">RSS</span></a></li>
-                    </ul>
+                        <?php echo social();?>
                     </div>                
                 </nav>
-				<?php endif;?>
                 <div class="site-info">
                     <span class="site-title"><a href="<?php echo site_url();?>" rel="home"><?php echo blog_title();?></a></span>
                     <span class="copyright"><?php echo copyright();?></span>

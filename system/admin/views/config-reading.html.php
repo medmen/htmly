@@ -5,11 +5,13 @@
   <div class="nav nav-tabs" id="nav-tab">
     <a class="nav-item nav-link" id="nav-general-tab" href="<?php echo site_url();?>admin/config"><?php echo i18n('General');?></a>
     <a class="nav-item nav-link active" id="nav-profile-tab" href="<?php echo site_url();?>admin/config/reading"><?php echo i18n('Reading');?></a>
+    <a class="nav-item nav-link" id="nav-writing-tab" href="<?php echo site_url();?>admin/config/writing"><?php echo i18n('Writing');?></a>
     <a class="nav-item nav-link" id="nav-widget-tab" href="<?php echo site_url();?>admin/config/widget"><?php echo i18n('Widget');?></a>
     <a class="nav-item nav-link" id="nav-metatags-tab" href="<?php echo site_url();?>admin/config/metatags"><?php echo i18n('Metatags');?></a>
+    <a class="nav-item nav-link" id="nav-security-tab" href="<?php echo site_url();?>admin/config/security"><?php echo i18n('Security');?></a>
     <a class="nav-item nav-link" id="nav-performance-tab" href="<?php echo site_url();?>admin/config/performance"><?php echo i18n('Performance');?></a>
     <a class="nav-item nav-link" id="nav-custom-tab" href="<?php echo site_url();?>admin/config/custom"><?php echo i18n('Custom');?></a>
-  </div>    
+  </div>
 </nav>
 <br><br>
 <form method="POST">
@@ -81,6 +83,26 @@
     <label for="teaser.char" class="col-sm-2 col-form-label"><?php echo i18n('Summary_character');?></label>
     <div class="col-sm-10">
       <input type="number" name="-config-teaser.char" class="form-control" id="teaser.char" value="<?php echo config('teaser.char');?>">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label"><?php echo i18n('summary_behavior');?></label>
+    <div class="col-sm-10">
+      <div class="col-sm-10">
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-teaser.behave" id="teaser.behave1" value="default" <?php if (config('teaser.behave') === 'default' || is_null(config('teaser.behave'))):?>checked<?php endif;?>>
+          <label class="form-check-label" for="teaser.behave1">
+            <?php echo i18n('Default');?>
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="-config-teaser.behave" id="teaser.behave2" value="check" <?php if (config('teaser.behave') === 'check'):?>checked<?php endif;?>>
+          <label class="form-check-label" for="teaser.behave2">
+            <?php echo i18n('Check_shortcode');?>
+          </label>
+        </div>
+      </div>
+      <small><em><?php echo i18n('in_summary_mode_whether_check_the_shortcode_first_or_not_before_trim_the_content_to_x_char');?></em></small>
     </div>
   </div>
   <div class="form-group row">

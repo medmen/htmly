@@ -10,6 +10,7 @@
         </div>
     </div>
 <?php endif; ?>
+<?php $teaserType = config('teaser.type'); $readMore = config('read.more');?>
 <?php foreach ($posts as $p): ?>
     <div class="post" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
         <div class="main">
@@ -27,7 +28,7 @@
                 <?php } elseif (facebook()) { ?> -
                     <a href="<?php echo $p->url ?>#comments"><span><fb:comments-count href=<?php echo $p->url ?>></fb:comments-count> <?php echo i18n('Comments');?></span></a>
                 <?php } ?>
-                <?php if (login()) { echo ' - <span><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
+                <?php if (authorized($p)) { echo ' - <span><a href="'. $p->url .'/edit?destination=post">Edit</a></span>'; } ?>
             </div>
             <?php if (!empty($p->image)) { ?>
                 <div class="featured-image">
@@ -49,10 +50,9 @@
                     <blockquote><?php echo $p->quote ?></blockquote>
                 </div>
             <?php } ?>
-            <div class="teaser-body" itemprop="articleBody">
-                <?php echo get_thumbnail($p->body) ?>
+            <div class="teaser-body post-<?php echo $p->date;?>" itemprop="articleBody">
                 <?php echo get_teaser($p->body, $p->url) ?>
-                <?php if (config('teaser.type') === 'trimmed'):?><a href="<?php echo $p->url;?>"><?php echo config('read.more'); ?></a><?php endif;?>
+                <?php if ($teaserType === 'trimmed'):?>[...] <a href="<?php echo $p->url;?>"><?php echo $readMore; ?></a><?php endif;?>
             </div>
         </div>
     </div>

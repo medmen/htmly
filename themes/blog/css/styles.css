@@ -629,3 +629,15 @@ ul.month {
   margin:0 0 0 10px;
   float:right;	
 }
+
+#more {
+  display:block;
+  height:1rem;
+  margin-top:-1rem;
+  box-shadow: none;
+  border: none;
+}
+
+.social-logo a:before {
+  padding-top:6px;
+}

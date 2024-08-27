@@ -34,7 +34,7 @@
         quote: "Blockquote <blockquote> Ctrl+Q",
         quoteexample: "Blockquote",
 
-        code: "Code Sample <pre><code> Ctrl+K",
+        code: "Code <pre><code> Ctrl+K",
         codeexample: "enter code here",
 
         image: "Image <img> Ctrl+G",
@@ -45,12 +45,14 @@
         ulist: "Bulleted List <ul> Ctrl+U",
         litem: "List item",
 
-        heading: "Heading <h1>/<h2> Ctrl+H",
+        heading: "Heading Ctrl+H",
         headingexample: "Heading",
 
         hr: "Horizontal Rule <hr> Ctrl+R",
 		
         readmore: "Read More <!--more--> Ctrl+M",
+		
+        toc: "TOC <!--toc-->",
 		
         table: "Table - Ctrl+J",
 
@@ -1520,6 +1522,7 @@
             }));
             buttons.hr = makeButton("wmd-hr-button", getString("hr"), "fa fa-ellipsis-h", bindCommand("doHorizontalRule"));
             buttons.readmore = makeButton("wmd-readmore-button", getString("readmore"), "fa fa-arrow-right", bindCommand("doReadMore"));
+            buttons.toc = makeButton("wmd-toc-button", getString("toc"), "fa fa-list-alt", bindCommand("doTOC"));
             //makeSpacer(3);
             buttons.undo = makeButton("wmd-undo-button", getString("undo"), "fa fa-undo", null);
             buttons.undo.execute = function (manager) {
@@ -1797,11 +1800,12 @@
                     // the first bracket could then not act as the "not a backslash" for the second.
                     chunk.selection = (" " + chunk.selection).replace(/([^\\](?:\\\\)*)(?=[[\]])/g, "$1\\").substr(1);
 
-                    var linkDef = " [999]: " + properlyEncoded(link);
+                    // var linkDef = " [999]: " + properlyEncoded(link);
 
-                    var num = that.addLinkDef(chunk, linkDef);
+                    // var num = that.addLinkDef(chunk, linkDef);
                     chunk.startTag = isImage ? "![" : "[";
-                    chunk.endTag = "][" + num + "]";
+                    // chunk.endTag = "][" + num + "]";
+                    chunk.endTag = "](" + properlyEncoded(link) + ")";
 
                     if (!chunk.selection) {
                         if (isImage) {
@@ -2196,7 +2200,7 @@
         if (!chunk.selection) {
             chunk.startTag = "## ";
             chunk.selection = this.getString("headingexample");
-            chunk.endTag = " ##";
+            chunk.endTag = " \n";
             return;
         }
 
@@ -2218,16 +2222,17 @@
         if (/-+/.test(chunk.endTag)) {
             headerLevel = 2;
         }
-
+        
         // Skip to the next line so we can create the header markdown.
         chunk.startTag = chunk.endTag = "";
         chunk.skipLines(1, 1);
 
-        // We make a level 2 header if there is no current header.
+        // We make a level 4 header if there is no current header.
         // If there is a header level, we substract one from the header level.
         // If it's already a level 1 header, it's removed.
-        var headerLevelToCreate = headerLevel == 0 ? 2 : headerLevel - 1;
+        var headerLevelToCreate = headerLevel == 0 ? 4 : headerLevel - 1;
 
+        /*
         if (headerLevelToCreate > 0) {
 
             // The button only creates level 1 and 2 underline headers.
@@ -2242,18 +2247,34 @@
                 chunk.endTag += headerChar;
             }
         }
+        */
+
+        if (headerLevelToCreate > 0) {
+            var hashesToCreate = headerLevelToCreate;
+            while (hashesToCreate--) {
+                chunk.startTag += "#";
+            }
+            chunk.startTag += " "; //So we have #### Header instead of ####Header (optional)
+        }
+
     };
 
     commandProto.doHorizontalRule = function (chunk, postProcessing) {
         chunk.startTag = "----------\n";
         chunk.selection = "";
-        chunk.skipLines(2, 1, true);
+        chunk.skipLines(1, 1, true);
     }
 	
     commandProto.doReadMore = function (chunk, postProcessing) {
         chunk.startTag = "<!--more-->";
         chunk.selection = "";
-        chunk.skipLines(0, 1, true);
+        chunk.skipLines(1, 1, true);
+    }
+	
+    commandProto.doTOC = function (chunk, postProcessing) {
+        chunk.startTag = "<!--toc-->";
+        chunk.selection = "";
+        chunk.skipLines(1, 1, true);
     }
 	
 	commandProto.doStrikethrough = function (chunk, postProcessing) {
